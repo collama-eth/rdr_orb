@@ -358,7 +358,7 @@ df_filtered['orb_max_ret_bucket'] = pd.cut(
     df_filtered['max_ret_pct'],
     bins=bins,
     include_lowest=True,
-    right=False
+    right=False,
     precision=2  # control label formatting
 )
 
