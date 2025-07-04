@@ -68,7 +68,7 @@ if not st.session_state["authenticated"]:
 st.title("Opening Range Breakouts")
 
 # ↓ in your sidebar:
-instrument_options = ["ES", "NQ", "YM", "RTY", "CL", "GC"]
+instrument_options = ["ES", "NQ", "YM", "RTY"]
 range_time_options = ["5m", "15m"]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 selected_range_time = st.sidebar.selectbox("Range Time Frame", range_time_options)
@@ -315,7 +315,11 @@ for col_container, col_name in zip(range_high_low_time_row, range_high_low_time_
     fig.update_layout(
         xaxis_tickangle=90,
         margin=dict(l=10, r=10, t=30, b=10),
-        yaxis=dict(showticklabels=False)
+        yaxis=dict(showticklabels=False),
+            title=dict(
+        text="Time high was formed from start of range to the end of the range",
+        x=0.5
+    )
     )
 
     col_container.plotly_chart(fig, use_container_width=True)
