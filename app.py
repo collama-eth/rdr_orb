@@ -373,7 +373,12 @@ df_filtered["max_ret_bucket"] = pd.cut(
 counts = df_filtered['max_ret_bucket'].value_counts(normalize=True).sort_index()
 perc = counts * 100
 
-st.help("Measured from the wick high and low of the ORB range (5m or 15m") 
+st.markdown("""
+### ORB Max Retracements 
+<small style='color:gray'>
+    <span title='Measured from the wick high and low of the ORB range (5m or 15m). Percentage retracement after ORB confirmation.' style='cursor: help;'>❓</span>
+</small>
+""", unsafe_allow_html=True)
 
 fig = px.bar(
     x=perc.index.astype(str),
