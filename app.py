@@ -316,10 +316,6 @@ for col_container, col_name in zip(range_high_low_time_row, range_high_low_time_
         xaxis_tickangle=90,
         margin=dict(l=10, r=10, t=30, b=10),
         yaxis=dict(showticklabels=False),
-            title=dict(
-        text="Time high was formed from start of range to the end of the range",
-        x=0.5
-    )
     )
 
     col_container.plotly_chart(fig, use_container_width=True)
