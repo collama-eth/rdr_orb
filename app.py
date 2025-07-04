@@ -76,7 +76,7 @@ selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 #########################################
 df = load_data_for_instrument(selected_instrument)
 
-df['date'] = pd.to_datetime(df['session_date']).dt.date
+df['date'] = pd.to_datetime(df['date']).dt.date
 
 # 1) Make sure 'date' is a datetime column
 if "date" in df.columns:
