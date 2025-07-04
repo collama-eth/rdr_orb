@@ -350,7 +350,7 @@ df_filtered['orb_max_ret_bucket'] = pd.cut(
     precision=2  # control label formatting
 )
 
-counts = df['orb_max_ret_bucket'].value_counts(normalize=True).sort_index()
+counts = df_filtered['orb_max_ret_bucket'].value_counts(normalize=True).sort_index()
 perc = counts * 100
 
 fig = px.bar(
