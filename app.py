@@ -263,3 +263,45 @@ for j, col in enumerate(conf_direction_cols):
                       width=250,
                       margin=dict(l=10, r=10, t=30, b=10))
     all_cols[offset2 + j].plotly_chart(fig, use_container_width=True)
+
+#########################################################
+### Box High/Low Time
+#########################################################
+range_high_low_time_cols = [
+    "range_high_time",
+    "range_low_time"
+]
+
+
+range_high_low_time_row = st.columns(len(range_high_low_time_cols))
+
+for idx, col in enumerate(range_high_low_time_row):
+    # 1) drop any actual None/NaT values
+    series = df_filtered[col]
+
+    # 2) normalized counts, *then* reindex into your three‐bucket order
+    counts = (
+        series
+        .value_counts(normalize=True)
+        .reindex(order, fill_value=0)
+    )
+
+    # 4) turn into percentages
+    perc = counts * 100
+    perc = perc[perc > 0]
+
+    # now build the bar‐chart
+    fig = px.bar(
+        x=perc.index,
+        y=perc.values,
+        text=[f"{v:.1f}%" for v in perc.values],
+        title=range_high_low_time_row[idx],
+        labels={"x": "", "y": ""},
+    )
+    fig.update_traces(textposition="outside")
+    fig.update_layout(
+        xaxis_tickangle=90,
+        margin=dict(l=10,r=10,t=30,b=10),
+        yaxis=dict(showticklabels=False))
+
+    range_high_low_time_row[idx].plotly_chart(fig, use_container_width=True)
