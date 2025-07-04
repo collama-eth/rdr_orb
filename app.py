@@ -146,7 +146,7 @@ with st.expander("Range Filters", expanded=False):
 
 # map each filter to its column
 inclusion_map = {
-    "orb_conf_direction":       "orb_conf_direction",
+    "orb_conf_direction":       "orb_conf_direction_filter",
     "orb_conf_time":            "orb_conf_time_filter",
 
 }
