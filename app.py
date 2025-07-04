@@ -275,9 +275,9 @@ range_high_low_time_cols = [
 
 range_high_low_time_row = st.columns(len(range_high_low_time_cols))
 
-for idx, col in enumerate(range_high_low_time_row):
+for idx, col in enumerate(range_high_low_time_cols):
     # 1) drop any actual None/NaT values
-    series = df_filtered[col_name].dropna()
+    series = df_filtered[col].dropna()
     series = series.apply(lambda t: t.strftime("%H:%M") if not pd.isna(t) else None)
 
     # 2) normalized counts, *then* reindex into your three‐bucket order
