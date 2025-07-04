@@ -340,8 +340,6 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
 
     col_container.plotly_chart(fig, use_container_width=True)
 
-st.caption(f"Sample size: {len(df_filtered):,} rows")
-
 #########################################################
 ### Max Retracements
 #########################################################
@@ -378,3 +376,41 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
+#########################################################
+### Max Extensions
+#########################################################
+bin_width = 0.1
+min_val = df_filtered['max_ext_pct'].min()
+max_val = df_filtered['max_ext_pct'].max()
+
+# Extend the range a little to cover edge cases
+bins = np.arange(np.floor(min_val * 10) / 10, np.ceil(max_val * 10) / 10 + bin_width, bin_width)
+
+df_filtered['orb_max_ext_bucket'] = pd.cut(
+    df_filtered['max_ext_pct'],
+    bins=bins,
+    include_lowest=True,
+    precision=2  # control label formatting
+)
+
+counts = df_filtered['orb_max_ext_bucket'].value_counts(normalize=True).sort_index()
+perc = counts * 100
+
+fig = px.bar(
+    x=perc.index.astype(str),
+    y=perc.values,
+    text=[f"{v:.1f}%" for v in perc.values],
+    title="ORB Max Extensions",
+    labels={"x": "Extension Bucket", "y": ""},
+)
+fig.update_traces(textposition="outside")
+fig.update_layout(
+    xaxis_tickangle=45,
+    margin=dict(l=10, r=10, t=30, b=10),
+    yaxis=dict(showticklabels=False),
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+st.caption(f"Sample size: {len(df_filtered):,} rows")
