@@ -69,12 +69,14 @@ st.title("Opening Range Breakouts")
 
 # ↓ in your sidebar:
 instrument_options = ["ES", "NQ", "YM", "RTY", "CL", "GC"]
+range_time_options = ["5m", "15m"]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
+selected_range_time = st.sidebar.selectbox("Range Time Frame", range_time_options)
 
 #########################################
 ### Data Loading and Processing
 #########################################
-df = load_data_for_instrument(selected_instrument)
+df = load_data_for_instrument(selected_instrument, selected_range_time)
 
 df['date'] = pd.to_datetime(df['date']).dt.date
 
