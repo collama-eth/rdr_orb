@@ -111,7 +111,7 @@ start_date, end_date = st.sidebar.date_input(
 default_filters = {
     "selected_day":                       "All",
     "date_range":                 (min_date, max_date),
-    "selected_bin_size" :          0.1,
+    "selected_bin_size" :          0.5,
     "orb_conf_direction_filter":    "All",
     "orb_conf_time_filter" :        "All",
     "orb_true_filter" :             "All",
