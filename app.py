@@ -241,7 +241,9 @@ for i, col in enumerate(box_color_cols):
         hole=0.5,
     )
     fig.update_traces(textinfo="percent+label", textposition="inside", showlegend=False)
-    fig.update_layout(margin=dict(l=10, r=10, t=30, b=10))
+    fig.update_layout(height=250,
+                      width=250,
+                      margin=dict(l=10, r=10, t=30, b=10))
     all_cols[offset + i].plotly_chart(fig, use_container_width=True)
 
 offset2 = len(box_color_cols) + len(true_rate_cols)
@@ -255,5 +257,7 @@ for j, col in enumerate(conf_direction_cols):
         hole=0.5,
     )
     fig.update_traces(textinfo="percent+label", textposition="inside", showlegend=False)
-    fig.update_layout(margin=dict(l=10, r=10, t=30, b=10))
+    fig.update_layout(height=250,
+                      width=250,
+                      margin=dict(l=10, r=10, t=30, b=10))
     all_cols[offset2 + j].plotly_chart(fig, use_container_width=True)
