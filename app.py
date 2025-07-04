@@ -108,6 +108,8 @@ start_date, end_date = st.sidebar.date_input(
 default_filters = {
     "selected_day":                       "All",
     "date_range":                 (min_date, max_date),
+    "orb_conf_direction_filter":    "All",
+    "orb_conf_time_filter" :        "All",
 }
 
   # 2) Reset button with callback
