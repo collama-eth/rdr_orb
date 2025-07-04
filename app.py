@@ -373,6 +373,8 @@ df_filtered["max_ret_bucket"] = pd.cut(
 counts = df_filtered['max_ret_bucket'].value_counts(normalize=True).sort_index()
 perc = counts * 100
 
+st.help("Measured from the wick high and low of the ORB range (5m or 15m")
+
 fig = px.bar(
     x=perc.index.astype(str),
     y=perc.values,
