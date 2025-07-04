@@ -336,8 +336,9 @@ st.caption(f"Sample size: {len(df_filtered):,} rows")
 ### Max Retracements
 #########################################################
 bin_width = 0.1
-min_val = df['max_ret_pct'].min()
-max_val = df['max_ret_pct'].max()
+df_filtered = df_filtered.replace([np.inf, -np.inf], np.nan).dropna()
+min_val = df_filtered['max_ret_pct'].min()
+max_val = df_filtered['max_ret_pct'].max()
 
 # Extend the range a little to cover edge cases
 bins = np.arange(np.floor(min_val * 10) / 10, np.ceil(max_val * 10) / 10 + bin_width, bin_width)
