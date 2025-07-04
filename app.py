@@ -349,8 +349,8 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
 bin_width = float(selected_bin_size) 
 
 # Align bin edges to nearest multiples of bin_width
-min_edge = np.floor(df_filtered['max_ret_pct'].min() / bin_width) * bin_width
-max_edge = np.ceil(df_filtered['max_ret_pct'].max() / bin_width) * bin_width
+min_edge = np.floor(df_filtered['orb_max_ret_pct'].min() / bin_width) * bin_width
+max_edge = np.ceil(df_filtered['orb_max_ret_pct'].max() / bin_width) * bin_width
 
 # Construct bins
 bins = np.arange(min_edge, max_edge + bin_width, bin_width)
