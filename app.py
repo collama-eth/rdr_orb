@@ -267,42 +267,36 @@ for j, col in enumerate(conf_direction_cols):
 #########################################################
 ### Box High/Low Time
 #########################################################
-range_high_low_time_cols = [
-    "range_high_time",
-    "range_low_time"
-]
 
+order = sorted(df_filtered['range_high_time'].dropna().unique())
+order = [t.strftime("%H:%M") for t in order]
 
-range_high_low_time_row = st.columns(len(range_high_low_time_cols))
+for col_container, col_name in zip(range_high_low_time_row, range_high_low_time_cols):
+    series = df_filtered[col_name].dropna()
 
-for idx, col in enumerate(range_high_low_time_cols):
-    # 1) drop any actual None/NaT values
-    series = df_filtered[col].dropna()
+    # Convert times to string format for easier plotting (e.g. "10:30")
     series = series.apply(lambda t: t.strftime("%H:%M") if not pd.isna(t) else None)
 
-    # 2) normalized counts, *then* reindex into your three‐bucket order
     counts = (
         series
         .value_counts(normalize=True)
         .reindex(order, fill_value=0)
     )
 
-    # 4) turn into percentages
     perc = counts * 100
-    #perc = perc[perc > 0]
 
-    # now build the bar‐chart
     fig = px.bar(
         x=perc.index,
         y=perc.values,
         text=[f"{v:.1f}%" for v in perc.values],
-        title=range_high_low_time_row[idx],
+        title=col_name.replace("_", " ").title(),
         labels={"x": "", "y": ""},
     )
     fig.update_traces(textposition="outside")
     fig.update_layout(
         xaxis_tickangle=90,
-        margin=dict(l=10,r=10,t=30,b=10),
-        yaxis=dict(showticklabels=False))
+        margin=dict(l=10, r=10, t=30, b=10),
+        yaxis=dict(showticklabels=False)
+    )
 
-    range_high_low_time_row[idx].plotly_chart(fig, use_container_width=True)
+    col_container.plotly_chart(fig, use_container_width=True)
