@@ -277,24 +277,23 @@ for j, col in enumerate(conf_direction_cols):
 #########################################################
 ### Box High/Low Time
 #########################################################
-range_high_low_time_cols = [
+time_cols = [
     "range_high_time",
-    "range_low_time"
+    "range_low_time",
+    "orb_open_touch_time",
 ]
-range_high_low_time_row = st.columns(len(range_high_low_time_cols))
 
 order = sorted(df_filtered['range_high_time'].dropna().unique())
 order = [
     t.strftime("%H:%M") if hasattr(t, "strftime") else str(t)
     for t in order
-]
 
-for col_container, col_name in zip(range_high_low_time_row, range_high_low_time_cols):
-    series = df_filtered[col_name].dropna()
+
+for col_container, col_name in zip(time_cols):
+    series = df_filtered[col_name].fillna("Untouched")
 
     # Convert times to string format for easier plotting (e.g. "10:30")
     series = series.apply(lambda t: t.strftime("%H:%M") if hasattr(t, "strftime") else str(t))
-
 
     counts = (
         series
