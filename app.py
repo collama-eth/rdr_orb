@@ -282,14 +282,16 @@ time_cols = [
     "range_low_time",
     "orb_open_touch_time",
 ]
+time_col_layout = st.columns(len(time_cols))
 
-order = sorted(df_filtered['range_high_time'].dropna().unique())
-order = [
-    t.strftime("%H:%M") if hasattr(t, "strftime") else str(t)
-    for t in order]
+# Generate time order from all relevant columns (not just one)
+all_times = pd.concat([df_filtered[col] for col in time_cols]).dropna().unique()
+order = sorted(all_times)
+order = [t.strftime("%H:%M") if hasattr(t, "strftime") else str(t) for t in order]
+order.append("Untouched")  # For missing values we fill with "Untouched"
 
 
-for col_container, col_name in time_cols:
+for col_container, col_name in zip(time_col_layout, time_cols):
     series = df_filtered[col_name].fillna("Untouched")
 
     # Convert times to string format for easier plotting (e.g. "10:30")
