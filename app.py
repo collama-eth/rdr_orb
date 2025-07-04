@@ -70,8 +70,10 @@ st.title("Opening Range Breakouts")
 # ↓ in your sidebar:
 instrument_options = ["ES", "NQ", "YM", "RTY"]
 range_time_options = ["5m", "15m"]
+bin_size_options = [0.1, 0.2, 0.25, 0.5]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 selected_range_time = st.sidebar.selectbox("Range Time Frame", range_time_options)
+selected_bin_size = st.sidebar.selectbox("Graph Bin Size", bin_size_options)
 
 #########################################
 ### Data Loading and Processing
@@ -109,6 +111,7 @@ start_date, end_date = st.sidebar.date_input(
 default_filters = {
     "selected_day":                       "All",
     "date_range":                 (min_date, max_date),
+    "selected_bin_size" :          0.1,
     "orb_conf_direction_filter":    "All",
     "orb_conf_time_filter" :        "All",
     "orb_true_filter" :             "All",
@@ -380,7 +383,7 @@ st.plotly_chart(fig, use_container_width=True)
 #########################################################
 ### Max Extensions
 #########################################################
-bin_width = 0.1
+bin_width = selected_bin_size
 min_val = df_filtered['max_ext_pct'].min()
 max_val = df_filtered['max_ext_pct'].max()
 
@@ -412,5 +415,55 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
+#########################################################
+### Max retracement/extension Time
+#########################################################
+time_cols2 = [
+    "orb_max_ret_time",
+    "orb_max_ext_time",]
+
+time_titles2 = [
+    "ORB Max Retracement Time",
+    "ORB Max Extension Time",
+]
+
+time_col_layout2 = st.columns(len(time_cols2))
+
+# Generate time order from all relevant columns (not just one)
+all_times2 = pd.concat([df_filtered[col] for col in time_cols2]).dropna().unique()
+order2 = sorted(all_times)
+order2 = [t.strftime("%H:%M") if hasattr(t, "strftime") else str(t) for t in order2]
+
+for col_container, col_name, title in zip(time_col_layout2, time_cols2, time_titles2):
+    series = df_filtered[col_name].dropna()
+
+    # Convert times to string format for easier plotting (e.g. "10:30")
+    series = series.apply(lambda t: t.strftime("%H:%M") if hasattr(t, "strftime") else str(t))
+
+    counts = (
+        series
+        .value_counts(normalize=True)
+        .reindex(order, fill_value=0)
+    )
+    
+    perc = counts * 100
+    perc = perc[perc>0]
+
+    fig = px.bar(
+        x=perc.index,
+        y=perc.values,
+        text=[f"{v:.1f}%" for v in perc.values],
+        title=title,
+        labels={"x": "", "y": ""},
+    )
+    fig.update_traces(textposition="outside")
+    fig.update_layout(
+        xaxis_tickangle=90,
+        margin=dict(l=10, r=10, t=30, b=10),
+        yaxis=dict(showticklabels=False),
+    )
+
+    col_container.plotly_chart(fig, use_container_width=True)
 
 st.caption(f"Sample size: {len(df_filtered):,} rows")
