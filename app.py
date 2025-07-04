@@ -127,7 +127,7 @@ if isinstance(start_date, tuple):
 
 st.markdown("### Dropdown Filters")
 
-row1_cols = st.columns([1, 1,])
+row1_cols = st.columns([1, 1, 1])
 
 with row1_cols[0]:
     orb_conf_direction = st.selectbox(
@@ -142,6 +142,13 @@ with row1_cols[1]:
         key="orb_conf_time_filter"
     )
 
+with row1_cols[2]:
+    orb_range_direction = st.selectbox(
+        "ORB Range Direction",
+        options=options=["All"] + ["Long", "Short"],
+        key="orb_range_direction_filter"
+    )
+
 #########################################
 ### Filter Mapping
 #########################################   
@@ -150,6 +157,7 @@ with row1_cols[1]:
 inclusion_map = {
     "orb_conf_direction":       "orb_conf_direction_filter",
     "orb_conf_time":            "orb_conf_time_filter",
+    "orb_range_direction" :     "orb_range_direction_filter"
 
 }
 
