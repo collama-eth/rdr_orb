@@ -346,7 +346,7 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
 #########################################################
 ### Max Retracements
 #########################################################
-bin_width = 0.1
+bin_width = selected_bin_size
 df_filtered = df_filtered.replace([np.inf, -np.inf], np.nan).dropna()
 min_val = df_filtered['max_ret_pct'].min()
 max_val = df_filtered['max_ret_pct'].max()
