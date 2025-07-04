@@ -288,7 +288,7 @@ for idx, col in enumerate(range_high_low_time_row):
 
     # 4) turn into percentages
     perc = counts * 100
-    perc = perc[perc > 0]
+    #perc = perc[perc > 0]
 
     # now build the bar‐chart
     fig = px.bar(
