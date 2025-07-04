@@ -102,8 +102,6 @@ start_date, end_date = st.sidebar.date_input(
     key="date_range"
 )
 
-st.sidebar.markdown("### Daily Open Position") 
-
 #########################################
 ### Resets
 #########################################
