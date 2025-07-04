@@ -267,6 +267,11 @@ for j, col in enumerate(conf_direction_cols):
 #########################################################
 ### Box High/Low Time
 #########################################################
+range_high_low_time_cols = [
+    "range_high_time",
+    "range_low_time"
+]
+range_high_low_time_row = st.columns(len(range_high_low_time_cols))
 
 order = sorted(df_filtered['range_high_time'].dropna().unique())
 order = [
