@@ -346,6 +346,9 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
 #########################################################
 ### Max Retracements
 #########################################################
+# Handle inf values
+df_filtered = df_filtered.replace([np.inf, -np.inf], np.nan).dropna(subset=["max_ret_pct"])
+
 bin_width = float(selected_bin_size) 
 
 # Align bin edges to nearest multiples of bin_width
