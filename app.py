@@ -293,7 +293,7 @@ for j, col in enumerate(conf_direction_cols):
 #########################################################
 st.markdown("""
 <small style='color:gray'>
-    <span title='High and low times measured for duration the range spans, typically from 9:30 to 10:30. ORB open is typically 9:30 open and touch times are calculated after the confirmation (touches before confirmation not considered).' style='cursor: help;'>❓</span>
+    <span title='High and low times measured for duration the range spans, typically from 9:30 to 10:30. ORB open is typically 9:30 open and touch times are calculated after the confirmation (touches before confirmation are not considered).' style='cursor: help;'>❓</span>
 </small>
 """, unsafe_allow_html=True)
 
