@@ -79,6 +79,7 @@ selected_range_time = st.sidebar.selectbox("Range Time Frame", range_time_option
 df = load_data_for_instrument(selected_instrument, selected_range_time)
 
 df['date'] = pd.to_datetime(df['date']).dt.date
+df['day_of_week'] = pd.to_datetime(df['date']).dt.day_name()
 
 # 1) Make sure 'date' is a datetime column
 if "date" in df.columns:
