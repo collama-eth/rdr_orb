@@ -269,7 +269,10 @@ for j, col in enumerate(conf_direction_cols):
 #########################################################
 
 order = sorted(df_filtered['range_high_time'].dropna().unique())
-order = [t.strftime("%H:%M") for t in order]
+order = [
+    t.strftime("%H:%M") if hasattr(t, "strftime") else str(t)
+    for t in order
+]
 
 for col_container, col_name in zip(range_high_low_time_row, range_high_low_time_cols):
     series = df_filtered[col_name].dropna()
