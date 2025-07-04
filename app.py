@@ -283,7 +283,8 @@ for col_container, col_name in zip(range_high_low_time_row, range_high_low_time_
     series = df_filtered[col_name].dropna()
 
     # Convert times to string format for easier plotting (e.g. "10:30")
-    series = series.apply(lambda t: t.strftime("%H:%M") if not pd.isna(t) else None)
+    series = series.apply(lambda t: t.strftime("%H:%M") if hasattr(t, "strftime") else str(t))
+
 
     counts = (
         series
