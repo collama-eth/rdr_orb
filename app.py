@@ -286,7 +286,7 @@ time_cols = [
 order = sorted(df_filtered['range_high_time'].dropna().unique())
 order = [
     t.strftime("%H:%M") if hasattr(t, "strftime") else str(t)
-    for t in order
+    for t in order]
 
 
 for col_container, col_name in zip(time_cols):
