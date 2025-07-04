@@ -343,7 +343,7 @@ max_val = df['orb_max_ret_pct'].max()
 bins = np.arange(np.floor(min_val * 10) / 10, np.ceil(max_val * 10) / 10 + bin_width, bin_width)
 
 df_filtered['orb_max_ret_bucket'] = pd.cut(
-    df_filtered['orb_max_ret_pct'],
+    df_filtered['max_ret_pct'],
     bins=bins,
     include_lowest=True,
     precision=2  # control label formatting
