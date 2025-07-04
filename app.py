@@ -124,21 +124,21 @@ if isinstance(start_date, tuple):
     start_date, end_date = start_date
 
 st.markdown("### Dropdown Filters")
-with st.expander("Range Filters", expanded=False):
-    row1_cols = st.columns([1, 1,])
 
-    with row1_cols[0]:
-        orb_conf_direction = st.selectbox(
-            "ORB Confirmation Direction",
-            options=["All"] + ["Long", "Short"],
-            key="orb_conf_direction_filter"
-        )
-    with row1_cols[1]:
-        orb_conf_time = st.selectbox(
-            "ORB Confirmation Time",
-            options=["All"] + sorted(df["orb_conf_time"].dropna().unique()),
-            key="orb_conf_time_filter"
-        )
+row1_cols = st.columns([1, 1,])
+
+with row1_cols[0]:
+    orb_conf_direction = st.selectbox(
+        "ORB Confirmation Direction",
+        options=["All"] + ["Long", "Short"],
+        key="orb_conf_direction_filter"
+    )
+with row1_cols[1]:
+    orb_conf_time = st.selectbox(
+        "ORB Confirmation Time",
+        options=["All"] + sorted(df["orb_conf_time"].dropna().unique()),
+        key="orb_conf_time_filter"
+    )
 
 #########################################
 ### Filter Mapping
