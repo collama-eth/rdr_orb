@@ -347,19 +347,24 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
 ### Max Retracements
 #########################################################
 bin_width = selected_bin_size
-df_filtered = df_filtered.replace([np.inf, -np.inf], np.nan).dropna()
-min_val = df_filtered['max_ret_pct'].min()
-max_val = df_filtered['max_ret_pct'].max()
 
-# Extend the range a little to cover edge cases
-bins = np.arange(np.floor(min_val * 10) / 10, np.ceil(max_val * 10) / 10 + bin_width, bin_width)
+# Align bin edges to nearest multiples of bin_width
+min_edge = np.floor(df_filtered['max_ret_pct'].min() / bin_width) * bin_width
+max_edge = np.ceil(df_filtered['max_ret_pct'].max() / bin_width) * bin_width
 
-df_filtered['orb_max_ret_bucket'] = pd.cut(
-    df_filtered['max_ret_pct'],
+# Construct bins
+bins = np.arange(min_edge, max_edge + bin_width, bin_width)
+
+# Optional: pretty bin labels
+labels = [f"[{bins[i]:.1f}, {bins[i+1]:.1f})" for i in range(len(bins) - 1)]
+
+# Bucket the data with left-closed bins
+df_filtered["max_ret_bucket"] = pd.cut(
+    df_filtered["max_ret_pct"],
     bins=bins,
+    labels=labels,
     include_lowest=True,
-    right=False,
-    precision=2  # control label formatting
+    right=False
 )
 
 counts = df_filtered['orb_max_ret_bucket'].value_counts(normalize=True).sort_index()
@@ -384,18 +389,23 @@ st.plotly_chart(fig, use_container_width=True)
 #########################################################
 ### Max Extensions
 #########################################################
-bin_width = selected_bin_size
-min_val = df_filtered['max_ext_pct'].min()
-max_val = df_filtered['max_ext_pct'].max()
+# Align bin edges to nearest multiples of bin_width
+min_edge = np.floor(df_filtered['max_ext_pct'].min() / bin_width) * bin_width
+max_edge = np.ceil(df_filtered['max_ext_pct'].max() / bin_width) * bin_width
 
-# Extend the range a little to cover edge cases
-bins = np.arange(np.floor(min_val * 10) / 10, np.ceil(max_val * 10) / 10 + bin_width, bin_width)
+# Construct bins
+bins = np.arange(min_edge, max_edge + bin_width, bin_width)
 
-df_filtered['orb_max_ext_bucket'] = pd.cut(
-    df_filtered['max_ext_pct'],
+# Optional: pretty bin labels
+labels = [f"[{bins[i]:.1f}, {bins[i+1]:.1f})" for i in range(len(bins) - 1)]
+
+# Bucket the data with left-closed bins
+df_filtered["max_ext_bucket"] = pd.cut(
+    df_filtered["max_ext_bucket"],
     bins=bins,
+    labels=labels,
     include_lowest=True,
-    precision=2  # control label formatting
+    #right=False
 )
 
 counts = df_filtered['orb_max_ext_bucket'].value_counts(normalize=True).sort_index()
