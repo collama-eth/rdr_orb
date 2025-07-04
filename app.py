@@ -65,7 +65,6 @@ if not st.session_state["authenticated"]:
     st.stop()
 
 # ✅ If authenticated, show the full app
-st.title("Opening Range Breakouts")
 
 # ↓ in your sidebar:
 instrument_options = ["ES", "NQ", "YM", "RTY"]
