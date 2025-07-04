@@ -122,7 +122,7 @@ def reset_all_filters():
 st.sidebar.button("Reset all filters", on_click=reset_all_filters)
 
 if isinstance(start_date, tuple):
-    # sometimes date_input returns a single date if you pass a single default
+    # sometimes date_input returns a single date if you pass a single default 
     start_date, end_date = start_date
 
 st.markdown("### Dropdown Filters")
