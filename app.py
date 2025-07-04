@@ -17,7 +17,7 @@ def load_data_for_instrument(instrument: str, period: str = "5m") -> pd.DataFram
     """ 
     base = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main"
     if period == "5m":
-        fname = f"{instrument}_9_30_9_35_10_30_data.csv"
+        fname = f"{instrument}_9:30_9:30_10:25_data.csv"
     else:
         raise ValueError("period must be '5m' or '15m'")
     url = f"{base}/{fname}"
