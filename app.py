@@ -282,6 +282,13 @@ time_cols = [
     "range_low_time",
     "orb_open_touch_time",
 ]
+
+time_titles = [
+    "Range High Time",
+    "Range Low Time",
+    "ORB Open Touch Time After Conf.",
+]
+
 time_col_layout = st.columns(len(time_cols))
 
 # Generate time order from all relevant columns (not just one)
@@ -291,7 +298,7 @@ order = [t.strftime("%H:%M") if hasattr(t, "strftime") else str(t) for t in orde
 order.append("Untouched")  # For missing values we fill with "Untouched"
 
 
-for col_container, col_name in zip(time_col_layout, time_cols):
+for col_container, col_name, title in zip(time_col_layout, time_cols, chart_titles):
     series = df_filtered[col_name].fillna("Untouched")
 
     # Convert times to string format for easier plotting (e.g. "10:30")
@@ -309,7 +316,7 @@ for col_container, col_name in zip(time_col_layout, time_cols):
         x=perc.index,
         y=perc.values,
         text=[f"{v:.1f}%" for v in perc.values],
-        title=col_name.replace("_", " ").title(),
+        title=title,
         labels={"x": "", "y": ""},
     )
     fig.update_traces(textposition="outside")
