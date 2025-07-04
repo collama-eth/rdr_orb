@@ -367,7 +367,7 @@ df_filtered["max_ret_bucket"] = pd.cut(
     right=False
 )
 
-counts = df_filtered['orb_max_ret_bucket'].value_counts(normalize=True).sort_index()
+counts = df_filtered['max_ret_bucket'].value_counts(normalize=True).sort_index()
 perc = counts * 100
 
 fig = px.bar(
@@ -401,14 +401,14 @@ labels = [f"[{bins[i]:.1f}, {bins[i+1]:.1f})" for i in range(len(bins) - 1)]
 
 # Bucket the data with left-closed bins
 df_filtered["max_ext_bucket"] = pd.cut(
-    df_filtered["max_ext_bucket"],
+    df_filtered["max_ext_pct"],
     bins=bins,
     labels=labels,
     include_lowest=True,
     #right=False
 )
 
-counts = df_filtered['orb_max_ext_bucket'].value_counts(normalize=True).sort_index()
+counts = df_filtered['max_ext_bucket'].value_counts(normalize=True).sort_index()
 perc = counts * 100
 
 fig = px.bar(
