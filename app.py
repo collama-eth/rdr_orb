@@ -145,7 +145,7 @@ with row1_cols[1]:
 with row1_cols[2]:
     orb_range_direction = st.selectbox(
         "ORB Range Direction",
-        options=options=["All"] + ["Long", "Short"],
+        options=["All"] + ["Long", "Short"],
         key="orb_range_direction_filter"
     )
 
