@@ -326,7 +326,7 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
     
     perc = counts * 100
     perc = perc[perc>0]
-
+ 
     fig = px.bar(
         x=perc.index,
         y=perc.values,
