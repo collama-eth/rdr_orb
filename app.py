@@ -73,7 +73,7 @@ range_time_options = ["5m", "15m"]
 bin_size_options = [0.1, 0.2, 0.25, 0.5]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 selected_range_time = st.sidebar.selectbox("Range Time Frame", range_time_options)
-selected_bin_size = st.sidebar.selectbox("Graph Bin Size", bin_size_options)
+selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
 
 #########################################
 ### Data Loading and Processing
