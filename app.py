@@ -309,8 +309,9 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
         .value_counts(normalize=True)
         .reindex(order, fill_value=0)
     )
-
+    
     perc = counts * 100
+    perc = perc[perc>0]
 
     fig = px.bar(
         x=perc.index,
