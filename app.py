@@ -104,7 +104,7 @@ start_date, end_date = st.sidebar.date_input(
 
 #########################################
 ### Resets
-#########################################
+######################################### 
 default_filters = {
     "selected_day":                       "All",
     "date_range":                 (min_date, max_date),
