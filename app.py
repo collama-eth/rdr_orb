@@ -154,7 +154,7 @@ with row1_cols[2]:
 with row1_cols[3]:
     orb_true = st.selectbox(
         "ORB True/False",
-        options=["All"] + ["True", "False"],
+        options=["All"] + [True, False],
         key="orb_true_filter"
     )
 
