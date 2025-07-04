@@ -346,7 +346,7 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
 #########################################################
 ### Max Retracements
 #########################################################
-bin_width = selected_bin_size
+bin_width = float(selected_bin_size) 
 
 # Align bin edges to nearest multiples of bin_width
 min_edge = np.floor(df_filtered['max_ret_pct'].min() / bin_width) * bin_width
