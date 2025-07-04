@@ -131,11 +131,22 @@ with st.expander("Range Filters", expanded=False):
         orb_conf_direction = st.selectbox(
             "ORB Confirmation Direction",
             options=["All"] + ["Long", "Short"],
-            key="orb_conf_direction"
+            key="orb_conf_direction_filter"
         )
     with row1_cols[1]:
         orb_conf_time = st.selectbox(
             "ORB Confirmation Time",
             options=["All"] + sorted(df["orb_conf_time"].dropna().unique()),
-            key="orb_conf_time"
+            key="orb_conf_time_filter"
         )
+
+#########################################
+### Filter Mapping
+#########################################   
+
+# map each filter to its column
+inclusion_map = {
+    "orb_conf_direction":       "orb_conf_direction",
+    "orb_conf_time":            "orb_conf_time_filter",
+
+}
