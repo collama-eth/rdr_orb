@@ -16,10 +16,10 @@ def load_data_for_instrument(instrument: str, period: str = "5m") -> pd.DataFram
     period must be "1H" or "3H".
     """ 
     base = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main"
-    if period == "1H":
+    if period == "5m":
         fname = f"{instrument}_9_30_9_35_10_30_data.csv"
     else:
-        raise ValueError("period must be '1H' or '3H'")
+        raise ValueError("period must be '5m' or '15m'")
     url = f"{base}/{fname}"
     try:
         return pd.read_csv(url)
