@@ -137,5 +137,5 @@ with st.expander("Range Filters", expanded=False):
         orb_conf_time = st.selectbox(
             "ORB Confirmation Time",
             options=["All"] + sorted(df["orb_conf_time"].dropna().unique()),
-            key="orb_conf_direction"
+            key="orb_conf_time"
         )
