@@ -329,3 +329,5 @@ for col_container, col_name, title in zip(time_col_layout, time_cols, time_title
     )
 
     col_container.plotly_chart(fig, use_container_width=True)
+
+st.caption(f"Sample size: {len(filtered_df_1h):,} rows")
