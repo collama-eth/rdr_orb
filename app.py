@@ -298,7 +298,7 @@ order = [t.strftime("%H:%M") if hasattr(t, "strftime") else str(t) for t in orde
 order.append("Untouched")  # For missing values we fill with "Untouched"
 
 
-for col_container, col_name, title in zip(time_col_layout, time_cols, chart_titles):
+for col_container, col_name, title in zip(time_col_layout, time_cols, time_titles):
     series = df_filtered[col_name].fillna("Untouched")
 
     # Convert times to string format for easier plotting (e.g. "10:30")
