@@ -289,7 +289,7 @@ order = [
     for t in order]
 
 
-for col_container, col_name in zip(time_cols):
+for col_container, col_name in time_cols:
     series = df_filtered[col_name].fillna("Untouched")
 
     # Convert times to string format for easier plotting (e.g. "10:30")
