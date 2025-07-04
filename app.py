@@ -150,3 +150,110 @@ inclusion_map = {
     "orb_conf_time":            "orb_conf_time_filter",
 
 }
+
+# Apply filters
+df_filtered = df.copy()
+
+sel_day = st.session_state["selected_day"]
+if sel_day != "All":
+    df_filtered = df_filtered[df_filtered["day_of_week"]  == sel_day]
+
+# — Date range —
+start_date, end_date = st.session_state["date_range"]
+df_filtered = df_filtered[
+    (df_filtered["date"] >= pd.to_datetime(start_date)) &
+    (df_filtered["date"] <= pd.to_datetime(end_date))
+]
+
+for col, state_key in inclusion_map.items():
+    sel = st.session_state[state_key]
+    if isinstance(sel, list):
+        if sel:  # non-empty list means “only these”
+            df_filtered = df_filtered[df_filtered[col].isin(sel)]
+    else:
+        if sel != "All":
+            df_filtered = df_filtered[df_filtered[col] == sel]
+
+###########################################################
+### True Rates, Box Color, and Conf. Direction Graphs
+###########################################################
+# Box Color and Confirmation Direction
+true_rate_cols   = ["orb_true"]
+true_rate_titles = ["ORB True Rate"]
+
+box_color_cols   = ["box_color"]
+box_color_titles = ["RDR Box Color"]
+
+conf_direction_cols   = ["range_conf_direction"]
+conf_direction_titles = ["RDR Confirmation Direction"]
+
+plot_df = df_filtered.copy()
+
+for col in true_rate_cols:
+    plot_df[col] = plot_df[col].map({True: "True", False: "False"})
+
+# color maps
+box_color_map = {
+    "Green":   "#2ecc71",
+    "Red":     "#e74c3c",
+    "Neutral": "#5d6d7e",
+}
+dir_color_map = {
+    "Long":  "#2ecc71", 
+    "Short": "#e74c3c",
+    "None":  "#5d6d7e",
+}
+
+true_color_map = {
+    "True":  "#2ecc71",
+    "False": "#e74c3c",
+}
+
+# replace null/NaN with the string "None" for just those three cols
+for col in conf_direction_cols:
+    plot_df[col] = plot_df[col].fillna("None")
+    
+all_cols = st.columns(len(box_color_cols) + len(conf_direction_cols) + len(true_rate_cols))
+
+# true rate donuts
+for i, col in enumerate(true_rate_cols):
+    fig = px.pie(
+        plot_df,
+        names=col,
+        color=col,                        # tell px to color by that column
+        color_discrete_map=true_color_map, # map labels → colors
+        title=true_rate_titles[i],
+        hole=0.5,
+    )
+    fig.update_traces(textinfo="percent+label", textposition="inside", showlegend=False)
+    fig.update_layout(margin=dict(l=10, r=10, t=30, b=10))
+    all_cols[i].plotly_chart(fig, use_container_width=True)
+
+# box-color donuts
+offset = len(true_rate_cols)
+for i, col in enumerate(box_color_cols):
+    fig = px.pie(
+        plot_df,
+        names=col,
+        color=col,                        # tell px to color by that column
+        color_discrete_map=box_color_map, # map labels → colors
+        title=box_color_titles[i],
+        hole=0.5,
+    )
+    fig.update_traces(textinfo="percent+label", textposition="inside", showlegend=False)
+    fig.update_layout(margin=dict(l=10, r=10, t=30, b=10))
+    all_cols[offset + i].plotly_chart(fig, use_container_width=True)
+
+offset2 = len(box_color_cols) + len(true_rate_cols)
+for j, col in enumerate(conf_direction_cols):
+    fig = px.pie(
+        plot_df,
+        names=col,
+        color=col,
+        color_discrete_map=dir_color_map,
+        title=conf_direction_titles[j],
+        hole=0.5,
+    )
+    fig.update_traces(textinfo="percent+label", textposition="inside", showlegend=False)
+    fig.update_layout(margin=dict(l=10, r=10, t=30, b=10))
+    all_cols[offset2 + j].plotly_chart(fig, use_container_width=True)
