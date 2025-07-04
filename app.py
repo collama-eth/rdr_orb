@@ -69,7 +69,7 @@ st.title("Opening Range Breakouts")
 
 # ↓ in your sidebar:
 instrument_options = ["ES", "NQ", "YM", "RTY"]
-range_time_options = ["5m", "15m"]
+range_time_options = ["5m"]
 bin_size_options = [0.1, 0.25, 0.5]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 selected_range_time = st.sidebar.selectbox("Range Time Frame", range_time_options)
