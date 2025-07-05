@@ -67,7 +67,7 @@ if not st.session_state["authenticated"]:
 # ✅ If authenticated, show the full app
 
 # ↓ in your sidebar:
-instrument_options = ["ES", "NQ", "YM", "RTY"]
+instrument_options = ["ES", "NQ", "YM", "RTY", "CL", "GC"]
 range_time_options = ["5m"]
 bin_size_options = [0.5, 0.25, 0.1]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
