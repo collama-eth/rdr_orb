@@ -64,8 +64,6 @@ if not st.session_state["authenticated"]:
 
 # ↓ in your sidebar:
 instrument_options = ["ES", "NQ", "YM", "RTY", "CL", "GC"]
-orb_end_time = ["09:30"]
-range_end_time = ["10:25", "11:25", "12:25"]
 bin_size_options = [0.5, 0.25, 0.1]
 
 available = load_available_combinations()
