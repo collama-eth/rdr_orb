@@ -23,7 +23,7 @@ def load_data_for_instrument(instrument, selected_orb_end_time, selected_range_e
     try:
         fname = f"{instrument}_09_30_{selected_orb_end_time_}_{selected_range_end_time_}_data.csv"
     except:
-        raise ValueError("Selected Range Unavailable")
+        raise ValueError("Selected Range Unavailable") 
     url = f"{base}/{fname}"
     try:
         return pd.read_csv(url)
