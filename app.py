@@ -15,18 +15,19 @@ def load_available_combinations():
     return pd.read_csv(url)
 
 @st.cache_data
-def load_data_for_instrument(instrument, selected_orb_end_time, selected_range_end_time):
+def load_data_for_instrument(instrument, selected_orb_start_time, selected_orb_end_time, selected_range_end_time):
     """
     Load the 1-minute quartal file for a single instrument.
     period must be "5m" or "15m".
     """ 
-
+    
+    selected_orb_start_time_ = selected_orb_start_time.replace(":", "_")
     selected_orb_end_time_ = selected_orb_end_time.replace(":", "_")
     selected_range_end_time_ = selected_range_end_time.replace(":", "_")
 
     base = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main"
     try:
-        fname = f"{instrument}_09_30_{selected_orb_end_time_}_{selected_range_end_time_}_data.csv"
+        fname = f"{instrument}_{selected_orb_start_time}_{selected_orb_end_time_}_{selected_range_end_time_}_data.csv"
     except:
         raise ValueError("Selected Range Unavailable") 
     url = f"{base}/{fname}"
@@ -84,12 +85,22 @@ selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 available = load_available_combinations()
 instrument_available = available[available['instrument'] == selected_instrument]
 
-valid_orb_times = sorted(instrument_available['orb_end_time'].unique())
-selected_orb_end_time = st.sidebar.selectbox("ORB End Time (Close)", valid_orb_times)
+valid_orb_start_times = sorted(instrument_available['orb_start_time'].unique())
+selected_orb_start_time = st.sidebar.selectbox("ORB Start Time", valid_orb_start_times)
 
-range_times_for_orb = instrument_available[
-    instrument_available['orb_end_time'] == selected_orb_end_time
-]['range_end_time'].unique()
+orb_end_filtered = instrument_available[
+    instrument_available['orb_start_time'] == selected_orb_start_time
+]
+
+valid_orb_end_times = sorted(orb_end_filtered['orb_end_time'].unique())
+selected_orb_end_time = st.sidebar.selectbox("ORB End Time (Candle Close)", valid_orb_end_times)
+
+range_end_filtered = orb_end_filtered[
+    orb_end_filtered['orb_end_time'] == selected_orb_end_time
+]
+
+valid_range_end_times = sorted(range_end_filtered['range_end_time'].unique())
+selected_range_end_time = st.sidebar.selectbox("Range End Time", valid_range_end_times)
 
 selected_range_end_time = st.sidebar.selectbox("Range End Time", sorted(range_times_for_orb))
 selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
