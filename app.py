@@ -107,6 +107,8 @@ else:
     df = load_data_by_filename(filename)
 selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
 
+st.write("Unique ORB End Times:", sorted(available['orb_end_time'].unique()))
+
 #########################################
 ### Data Loading and Processing
 #########################################
