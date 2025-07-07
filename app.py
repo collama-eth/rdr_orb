@@ -10,14 +10,18 @@ st.set_page_config(layout='wide')
 ### Functions
 #########################################
 @st.cache_data
-def load_data_for_instrument(instrument: str, period: str = "5m") -> pd.DataFrame:
+def load_data_for_instrument(instrument, selected_orb_end_time, selected_range_end_time)
     """
     Load the 1-minute quartal file for a single instrument.
     period must be "5m" or "15m".
     """ 
+
+    selected_orb_end_time_ = selected_orb_end_time.replace(":", "_")
+    selected_range_end_time_ = selected_range_end_time.replace(":", "_")
+
     base = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main"
     if period == "5m":
-        fname = f"{instrument}_09_30_09_30_10_25_data.csv"
+        fname = f"{instrument}_09_30_{selected_orb_end_time_}_{selected_range_end_time_}_data.csv"
     else:
         raise ValueError("period must be '5m' or '15m'")
     url = f"{base}/{fname}"
@@ -68,16 +72,18 @@ if not st.session_state["authenticated"]:
 
 # ↓ in your sidebar:
 instrument_options = ["ES", "NQ", "YM", "RTY", "CL", "GC"]
-range_time_options = ["5m"]
+orb_end_time = ["9:30"]
+range_end_time = ["10:25", "11:25", "12:25"]
 bin_size_options = [0.5, 0.25, 0.1]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
-selected_range_time = st.sidebar.selectbox("Range Time Frame", range_time_options)
+selected_orb_end_time = st.sidebar.selectbox("ORB End Time (close)", orb_end_time, key="orb_end_time_filter")
+selected_range_end_time = st.sidebar.selectbox("Range End Time (close)", range_end_time, key="range_end_time_filter")
 selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
 
 #########################################
 ### Data Loading and Processing
 #########################################
-df = load_data_for_instrument(selected_instrument, selected_range_time)
+df = load_data_for_instrument(selected_instrument, selected_orb_end_time, selected_range_end_time)
 
 df['date'] = pd.to_datetime(df['date']).dt.date
 df['day_of_week'] = pd.to_datetime(df['date']).dt.day_name()
@@ -110,7 +116,9 @@ start_date, end_date = st.sidebar.date_input(
 default_filters = {
     "selected_day":                       "All",
     "date_range":                 (min_date, max_date),
-    "selected_bin_size" :          0.5,
+    "orb_end_time_filter":          "9:30",
+    "range_end_time_filter":          "9:30",
+    "selected_bin_size" :           0.5,
     "orb_conf_direction_filter":    "All",
     "orb_conf_time_filter" :        "All",
     "orb_true_filter" :             "All",
