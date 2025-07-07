@@ -10,6 +10,11 @@ st.set_page_config(layout='wide')
 ### Functions
 #########################################
 @st.cache_data
+def load_available_files():
+    url = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main/available_files.csv"
+    return pd.read_csv(url)
+
+@st.cache_data
 def load_data_for_instrument(instrument, selected_orb_end_time, selected_range_end_time):
     """
     Load the 1-minute quartal file for a single instrument.
@@ -75,9 +80,16 @@ instrument_options = ["ES", "NQ", "YM", "RTY", "CL", "GC"]
 orb_end_time = ["09:30"]
 range_end_time = ["10:25", "11:25", "12:25"]
 bin_size_options = [0.5, 0.25, 0.1]
+
+file_df = load_available_files()
+instrument_files = file_df[file_df['instrument'] == selected_instrument]
+
+available_orb_times = instrument_files['orb_end_time'].unique().tolist()
+available_range_times = instrument_files['range_end_time'].unique().tolist()
+
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
-selected_orb_end_time = st.sidebar.selectbox("ORB End Time (close)", orb_end_time, key="orb_end_time_filter")
-selected_range_end_time = st.sidebar.selectbox("Range End Time (close)", range_end_time, key="range_end_time_filter")
+selected_orb_end_time = st.sidebar.selectbox("ORB End Time (close)", available_orb_times, key="orb_end_time_filter")
+selected_range_end_time = st.sidebar.selectbox("Range End Time (close)", available_range_times, key="range_end_time_filter")
 selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
 
 #########################################
