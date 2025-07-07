@@ -10,7 +10,7 @@ st.set_page_config(layout='wide')
 ### Functions
 #########################################
 @st.cache_data
-def load_data_for_instrument(instrument, selected_orb_end_time, selected_range_end_time)
+def load_data_for_instrument(instrument, selected_orb_end_time, selected_range_end_time):
     """
     Load the 1-minute quartal file for a single instrument.
     period must be "5m" or "15m".
