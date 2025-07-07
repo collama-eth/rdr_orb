@@ -81,6 +81,7 @@ instrument_options = ["ES", "NQ", "YM", "RTY", "CL", "GC"]
 orb_end_time = ["09:30"]
 range_end_time = ["10:25", "11:25", "12:25"]
 bin_size_options = [0.5, 0.25, 0.1]
+
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 available = load_available_combinations()
 instrument_available = available[available['instrument'] == selected_instrument]
@@ -101,8 +102,6 @@ range_end_filtered = orb_end_filtered[
 
 valid_range_end_times = sorted(range_end_filtered['range_end_time'].unique())
 selected_range_end_time = st.sidebar.selectbox("Range End Time", valid_range_end_times)
-
-selected_range_end_time = st.sidebar.selectbox("Range End Time", sorted(range_times_for_orb))
 selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
 
 #########################################
