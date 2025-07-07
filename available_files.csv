@@ -1,7 +1,7 @@
 instrument,orb_start_time,orb_end_time,range_end_time,filename
 ES,09:30,10:25,ES_09_30_09_30_10_25_data.csv
 ES,09:30,09:40,11:25,ES_09_30_09_40_11_25_data.csv
-NQ,,09:3009:30,10:25,ES_09_30_09_30_10_25_data.csv
+NQ,09:3009:30,10:25,ES_09_30_09_30_10_25_data.csv
 NQ,09:30,09:40,11:25,ES_09_30_09_40_11_25_data.csv
 YM,09:30,09:30,10:25,ES_09_30_09_30_10_25_data.csv
 YM,09:30,09:40,11:25,ES_09_30_09_40_11_25_data.csv
