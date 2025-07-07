@@ -20,10 +20,10 @@ def load_data_for_instrument(instrument, selected_orb_end_time, selected_range_e
     selected_range_end_time_ = selected_range_end_time.replace(":", "_")
 
     base = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main"
-    if period == "5m":
-        fname = f"{instrument}_09_30_{selected_orb_end_time_}_{selected_range_end_time_}_data.csv"
+
+    fname = f"{instrument}_09_30_{selected_orb_end_time_}_{selected_range_end_time_}_data.csv"
     else:
-        raise ValueError("period must be '5m' or '15m'")
+        raise ValueError("Selected Range Unavailable")
     url = f"{base}/{fname}"
     try:
         return pd.read_csv(url)
