@@ -12,7 +12,7 @@ st.set_page_config(layout='wide')
 @st.cache_data
 def load_available_combinations():
     url = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main/available_files.csv"
-    return pd.read_csv(url)
+    return pd.read_csv(url, sep='\t')  # tab-separated!
 
 @st.cache_data
 def load_data_by_filename(filename):
