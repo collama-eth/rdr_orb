@@ -10,7 +10,7 @@ st.set_page_config(layout='wide')
 ### Functions
 #########################################
 @st.cache_data
-def load_available_files():
+def load_available_combinations():
     url = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main/available_files.csv"
     return pd.read_csv(url)
 
@@ -81,14 +81,17 @@ orb_end_time = ["09:30"]
 range_end_time = ["10:25", "11:25", "12:25"]
 bin_size_options = [0.5, 0.25, 0.1]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
-file_df = load_available_files()
-instrument_files = file_df[file_df['instrument'] == selected_instrument]
+available = load_available_combinations()
+instrument_available = available[available['instrument'] == selected_instrument]
 
-available_orb_times = instrument_files['orb_end_time'].unique().tolist()
-available_range_times = instrument_files['range_end_time'].unique().tolist()
+valid_orb_times = sorted(instrument_available['orb_end_time'].unique())
+selected_orb_end_time = st.sidebar.selectbox("ORB End Time (Close)", valid_orb_times)
 
-selected_orb_end_time = st.sidebar.selectbox("ORB End Time (close)", available_orb_times, key="orb_end_time_filter")
-selected_range_end_time = st.sidebar.selectbox("Range End Time (close)", available_range_times, key="range_end_time_filter")
+range_times_for_orb = instrument_available[
+    instrument_available['orb_end_time'] == selected_orb_end_time
+]['range_end_time'].unique()
+
+selected_range_end_time = st.sidebar.selectbox("Range End Time", sorted(range_times_for_orb))
 selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
 
 #########################################
