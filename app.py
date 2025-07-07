@@ -72,7 +72,7 @@ if not st.session_state["authenticated"]:
 
 # ↓ in your sidebar:
 instrument_options = ["ES", "NQ", "YM", "RTY", "CL", "GC"]
-orb_end_time = ["9:30"]
+orb_end_time = ["09:30"]
 range_end_time = ["10:25", "11:25", "12:25"]
 bin_size_options = [0.5, 0.25, 0.1]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
@@ -116,8 +116,8 @@ start_date, end_date = st.sidebar.date_input(
 default_filters = {
     "selected_day":                       "All",
     "date_range":                 (min_date, max_date),
-    "orb_end_time_filter":          "9:30",
-    "range_end_time_filter":          "9:30",
+    "orb_end_time_filter":          "09:30",
+    "range_end_time_filter":          "09:30",
     "selected_bin_size" :           0.5,
     "orb_conf_direction_filter":    "All",
     "orb_conf_time_filter" :        "All",
