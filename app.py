@@ -15,27 +15,13 @@ def load_available_combinations():
     return pd.read_csv(url)
 
 @st.cache_data
-def load_data_for_instrument(instrument, selected_orb_start_time, selected_orb_end_time, selected_range_end_time):
-    """
-    Load the 1-minute quartal file for a single instrument.
-    period must be "5m" or "15m".
-    """ 
-    
-    selected_orb_start_time_ = selected_orb_start_time.replace(":", "_")
-    selected_orb_end_time_ = selected_orb_end_time.replace(":", "_")
-    selected_range_end_time_ = selected_range_end_time.replace(":", "_")
-
+def load_data_by_filename(filename):
     base = "https://raw.githubusercontent.com/TuckerArrants/rdr_orb/main"
-    try:
-        fname = f"{instrument}_{selected_orb_start_time}_{selected_orb_end_time_}_{selected_range_end_time_}_data.csv"
-    except:
-        raise ValueError("Selected Range Unavailable") 
-    url = f"{base}/{fname}"
+    url = f"{base}/{filename}"
     try:
         return pd.read_csv(url)
     except Exception:
-        # fallback to empty DF if file not found or network hiccup
-        return pd.DataFrame() 
+        return pd.DataFrame()
 
 # ✅ Store username-password pairs
 USER_CREDENTIALS = {
@@ -82,26 +68,45 @@ orb_end_time = ["09:30"]
 range_end_time = ["10:25", "11:25", "12:25"]
 bin_size_options = [0.5, 0.25, 0.1]
 
-selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 available = load_available_combinations()
-instrument_available = available[available['instrument'] == selected_instrument]
 
-valid_orb_start_times = sorted(instrument_available['orb_start_time'].unique())
+# Select instrument
+instrument_options = sorted(available['instrument'].unique())
+selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
+
+instrument_filtered = available[available['instrument'] == selected_instrument]
+
+# Select ORB start time
+valid_orb_start_times = sorted(instrument_filtered['orb_start_time'].unique())
 selected_orb_start_time = st.sidebar.selectbox("ORB Start Time", valid_orb_start_times)
 
-orb_end_filtered = instrument_available[
-    instrument_available['orb_start_time'] == selected_orb_start_time
+orb_start_filtered = instrument_filtered[
+    instrument_filtered['orb_start_time'] == selected_orb_start_time
 ]
 
-valid_orb_end_times = sorted(orb_end_filtered['orb_end_time'].unique())
-selected_orb_end_time = st.sidebar.selectbox("ORB End Time (Candle Close)", valid_orb_end_times)
+# Select ORB end time
+valid_orb_end_times = sorted(orb_start_filtered['orb_end_time'].unique())
+selected_orb_end_time = st.sidebar.selectbox("ORB End Time", valid_orb_end_times)
 
-range_end_filtered = orb_end_filtered[
-    orb_end_filtered['orb_end_time'] == selected_orb_end_time
+orb_end_filtered = orb_start_filtered[
+    orb_start_filtered['orb_end_time'] == selected_orb_end_time
 ]
 
-valid_range_end_times = sorted(range_end_filtered['range_end_time'].unique())
+# Select Range end time
+valid_range_end_times = sorted(orb_end_filtered['range_end_time'].unique())
 selected_range_end_time = st.sidebar.selectbox("Range End Time", valid_range_end_times)
+
+# Look up the filename from the filtered row
+final_match = orb_end_filtered[
+    orb_end_filtered['range_end_time'] == selected_range_end_time
+]
+
+if final_match.empty:
+    st.error("No data available for the selected combination.")
+    df = pd.DataFrame()
+else:
+    filename = final_match.iloc[0]['filename']
+    df = load_data_by_filename(filename)
 selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
 
 #########################################
