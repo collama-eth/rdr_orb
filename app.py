@@ -108,7 +108,7 @@ selected_bin_size = st.sidebar.selectbox("Graph Bucket Size", bin_size_options)
 #########################################
 ### Data Loading and Processing
 #########################################
-df = load_data_for_instrument(selected_instrument, selected_orb_end_time, selected_range_end_time)
+df = load_data_for_instrument(selected_instrument, selected_orb_start_time, selected_orb_end_time, selected_range_end_time)
 
 df['date'] = pd.to_datetime(df['date']).dt.date
 df['day_of_week'] = pd.to_datetime(df['date']).dt.day_name()
