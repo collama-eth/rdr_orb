@@ -25,7 +25,7 @@ def load_data_by_filename(filename):
 
 # ✅ Store username-password pairs
 USER_CREDENTIALS = {
-    "cosmix": "dao",
+    "rdr_orb": "cosmix",
     "dreamteam" : "strike",
 }
 
